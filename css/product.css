@@ -137,14 +137,9 @@
 }
 .product__btn {
     width: 100%;
-    padding: 14px 0;
-    border: none;
-    border-radius: 5px;
-    background-color: var(--color-accent);
-    cursor: pointer;
-    color: #fff;
-    transition: background-color .3s ease-in-out;
 }
-.product__btn:hover{
-    background-color: #6078f1;
+
+.product__btn:disabled{
+    opacity: 0.4;
+    pointer-events: none;
 }

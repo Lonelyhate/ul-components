@@ -33,10 +33,27 @@ ul {
 	font-style: normal;
 }
 
+@font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/RobotoMedium.woff2') format('woff2');
+	font-display: swap;
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/RobotoBold.woff2') format('woff2');
+	font-display: swap;
+	font-weight: 700;
+	font-style: normal;
+}
+
 :root {
 	--color-dark: #4d4d4d;
 	--color-light: #808080;
 	--color-accent: #5d71dd;
+	--gutter: 20px;
 }
 
 a {
@@ -46,10 +63,28 @@ a {
 
 body {
 	margin: 0;
-	padding: 100px 0; /* для удобства */
 	font-family: 'Noto Sans', sans-serif;
 	font-weight: 400;
+	overflow-anchor: none;
 }
 li{
 	list-style: none;
+}
+
+.content{
+	padding-top: 90px;
+}
+
+.btn {
+    padding: 14px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--color-accent);
+    cursor: pointer;
+    color: #fff;
+    transition: background-color .3s ease-in-out;
+}
+
+.btn:hover{
+    background-color: #6078f1;
 }

@@ -3,6 +3,8 @@ const cartProductList = document.querySelector('.cart-content__list')
 const cart = document.querySelector('.cart')
 const cartQuantity = document.querySelector('.cart__quantity')
 const fullPrice = document.querySelector('.fullprice')
+const orderModalProductOpenProd = document.querySelector('.order-modal__btn')
+const orderModalList = document.querySelector('.order-modal__list')
 let price = 0
 
 const randomId = () => {
@@ -82,5 +84,27 @@ productBtn.forEach(el => {
 cartProductList.addEventListener('click', e => {
     if (e.target.classList.contains('cart-product__delete')) {
         deleteProduct(e.target.closest('.catr-content__item'))
+    }
+})
+
+let flag = 0
+orderModalProductOpenProd.addEventListener('click', e => {
+    if (flag == 0) {
+        orderModalProductOpenProd.classList.add('open')
+        orderModalList.style.display = 'block'
+        flag = 1
+    } else {
+        orderModalProductOpenProd.classList.remove('open')
+        orderModalList.style.display = 'none'
+        flag = 0
+    }
+})
+
+const modal = new GraphModal({
+    isOpen: (modal) => {
+        console.log('opened')
+    },
+    isClose: () => {
+        console.log('closed')
     }
 })

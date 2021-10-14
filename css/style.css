@@ -5,7 +5,9 @@
 :root{
     --gutter: 20px;
 }
-
+.mool{
+    
+}
 .container {
     width: 1244px;
     padding: 0 var(--gutter);

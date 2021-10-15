@@ -6,6 +6,7 @@ const fullPrice = document.querySelector('.fullprice')
 const orderModalProductOpenProd = document.querySelector('.order-modal__btn')
 const orderModalList = document.querySelector('.order-modal__list')
 let price = 0
+let productArray = []
 
 const randomId = () => {
 	return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -100,11 +101,72 @@ orderModalProductOpenProd.addEventListener('click', e => {
     }
 })
 
+const generateModalProduct = (img, title, price, id) => {
+    return `
+    <li class="order-modal__item">
+        <article class="order-modal__product order-product" data-id="${id}">
+            <img src="${img}" alt="" class="order-product__img">
+            <div class="order-product__text">
+                <h3 class="order-product__title">${title}</h3>
+                <div class="order-product__price">${normalPrice(price)} Р</div>
+            </div>
+            <button class="order-product__delete">Удалить</button>
+        </article>
+    </li>
+    `
+}
+
 const modal = new GraphModal({
     isOpen: (modal) => {
         console.log('opened')
+        let array = cartProductList.querySelector('.simplebar-content').children
+        let fullprice = fullPrice.textContent
+        let length = array.length
+
+        document.querySelector('.order-modal__sum span').textContent = fullprice
+        document.querySelector('.order-modal__quantity span').textContent = length + ' шт'
+        for (item of array) {
+            let id = item.querySelector('.cart-product').dataset.id
+            let title = item.querySelector('.cart-product__title').textContent
+            let priceString = priceWithoutSpaces(item.querySelector('.cart-product__price').textContent)
+            let img = item.querySelector('.cart-product__img').getAttribute('src')
+            orderModalList.insertAdjacentHTML('afterbegin', generateModalProduct(img, title, priceString, id))
+
+            let obj = {}
+            obj.title = title
+            obj.price = priceString
+            productArray.push(obj)
+        }
     },
     isClose: () => {
         console.log('closed')
     }
+})
+
+document.querySelector('.order').addEventListener('submit', e => {
+    e.preventDefault()
+    let self = e.currentTarget
+    let formData = new FormData(self)
+    let name = self.querySelector('[name="Имя"]').value
+    let name = self.querySelector('[name="Телефон"]').value
+    let name = self.querySelector('[name="Почта"]').value
+    formData.append('Товары', JSON.stringify(productArray))
+    formData.append('Имя', name)
+    formData.append('Телефон', tel)
+    formData.append('Почта', mail)
+
+    // let xhr = new XMLHttpRequest()
+
+    // xhr.onreadystatechange = function() {
+    //     if(xhr.readyState === 4){
+    //         if(xhr.status === 200) {
+    //             console.log('Отправлено')
+    //         }
+    //     }
+    // }
+
+    // xhr.open('POST', 'mail.php', true)
+    // xhr.send(formData)
+
+    self.reset()
 })

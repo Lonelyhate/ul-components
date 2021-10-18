@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    document.querySelector('.order-modal__content').addEventListener('click', e => {
+    document.querySelector('.modal').addEventListener('click', e => {
         if(e.target.classList.contains('order-product__delete')) {
             let id = e.target.closest('.order-modal__product').dataset.id
             let cartProduct = document.querySelector(`.cart-content__product[data-id="${id}"]`).closest('.catr-content__item')

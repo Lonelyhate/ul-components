@@ -143,30 +143,59 @@ const modal = new GraphModal({
     }
 })
 
+const postData = async (url, data) => {
+    let res = await fetch(url, {
+        method: "POST",
+        body: data
+    })
+
+    return await res.text()
+}
+
 document.querySelector('.order').addEventListener('submit', e => {
     e.preventDefault()
     let self = e.currentTarget
+    const message = {
+        success: 'Ваш заказ успешно принят',
+        fail: 'Что то пошло не так', 
+        lodading: 'Загрузка'
+    }
+
+    let statusMessage = document.createElement('div')
+    statusMessage.textContent = message.lodading
+    statusMessage.style.cssText = `
+        text-align: center;
+        margin-bottom: 5px;
+    `
+    self.insertAdjacentElement('afterbegin', statusMessage)
+
+    let a = []
     let formData = new FormData(self)
     let name = self.querySelector('[name="Имя"]').value
-    let name = self.querySelector('[name="Телефон"]').value
-    let name = self.querySelector('[name="Почта"]').value
-    formData.append('Товары', JSON.stringify(productArray))
-    formData.append('Имя', name)
-    formData.append('Телефон', tel)
-    formData.append('Почта', mail)
+    let tel = self.querySelector('[name="Телефон"]').value
+    let mail = self.querySelector('[name="Почта"]').value
+    a.push('Товары', JSON.stringify(productArray))
+    a.push('Имя', name)
+    a.push('Телефон', tel)
+    a.push('Почта', mail)
 
-    // let xhr = new XMLHttpRequest()
+    postData('../server.php', formData)
+    .then((data) => {
+        console.log(data)
+        statusMessage.textContent = message.success
+    })
+    .catch(() => {
+        statusMessage.textContent = message.fail
+    })
+    .finally(() => {
+        setTimeout(() => {
+            statusMessage.remove()
+        }, 5000)
+    })
 
-    // xhr.onreadystatechange = function() {
-    //     if(xhr.readyState === 4){
-    //         if(xhr.status === 200) {
-    //             console.log('Отправлено')
-    //         }
-    //     }
-    // }
+    
 
-    // xhr.open('POST', 'mail.php', true)
-    // xhr.send(formData)
+    
 
     self.reset()
 })
